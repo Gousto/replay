@@ -1,5 +1,9 @@
 # Replay
 
+
+[![GitHub tag](https://img.shields.io/github/tag/gousto/replay.svg)]()
+
+
 Re-play functions that error out! 
 
 Some times things not always works at the first attempt. 
