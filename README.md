@@ -1,8 +1,8 @@
 # Replay
 
-
-[![GitHub tag](https://img.shields.io/github/tag/gousto/replay.svg)]()
-
+[![CircleCI](https://img.shields.io/circleci/project/github/Gousto/replay.svg)](https://circleci.com/gh/Gousto/replay)
+[![GitHub tag](https://img.shields.io/github/tag/Gousto/replay.svg)]()
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/Gousto/replay.svg)](https://scrutinizer-ci.com/g/Gousto/replay)
 
 Re-play functions that error out! 
 
