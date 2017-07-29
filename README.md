@@ -7,13 +7,13 @@
 Re-play functions that error out! 
 
 Some times things not always works at the first attempt. 
-**Replay** comes in allowing to plan **re-tries** and **fallbacks** strategies for your
+**Replay** comes in allowing you to plan **re-tries** and **fallbacks** strategies for your
 functions.
 
 ## Install
 
 ```bash
-composer install gousto/replay
+composer require gousto/replay
 ```
 
 
