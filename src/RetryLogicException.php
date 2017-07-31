@@ -26,9 +26,9 @@ class RetryLogicException extends Exception
      *
      * @param Replay    $replay
      * @param Exception $original_error
-     * @param int       $message
+     * @param string    $message
      */
-    public function __construct(Replay $replay, Exception $original_error, $message)
+    public function __construct(Replay $replay, Exception $original_error, $message = "")
     {
         parent::__construct($message);
         $this->original_error = $original_error;
