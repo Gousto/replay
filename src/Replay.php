@@ -83,7 +83,7 @@ class Replay
      *
      * @return static
      */
-    static public function times($attempts = 1, Closure $closure, $delay = 0, $exception_targets = [])
+    public static function times($attempts = 1, Closure $closure, $delay = 0, $exception_targets = [])
     {
         return new static($attempts, $closure, $delay, $exception_targets);
     }
@@ -96,7 +96,7 @@ class Replay
      *
      * @return mixed
      */
-    static public function retry($attempts = 1, Closure $closure, $delay = 0, $exception_targets = [])
+    public static function retry($attempts = 1, Closure $closure, $delay = 0, $exception_targets = [])
     {
         return static::times($attempts, $closure, $delay, $exception_targets)->play();
     }
@@ -109,8 +109,6 @@ class Replay
      */
     public function play($silent = false)
     {
-        $response = null;
-
         try {
             do { $response = $this->next(); } while ($this->counter > 0);
             return $response;
@@ -169,13 +167,14 @@ class Replay
             if (is_a($e, $error_handler, true)) {
                 $this->has_handler = true;
 
-                // Any custom error handler specified
-                if ($handler = $this->retry_handler) {
-                    $handler($e, $this);
-                }
                 // Any delay provided for every retry
                 if ($this->delay > 0) {
                     usleep($this->delay * 1000);
+                }
+
+                // Any custom error handler specified
+                if ($handler = $this->retry_handler) {
+                    $handler($e, $this);
                 }
                 break;
             } else {
@@ -246,6 +245,22 @@ class Replay
     public function attempts()
     {
         return $this->attempts_count;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDelay()
+    {
+        return $this->delay;
+    }
+
+    /**
+     * @param int $delay
+     */
+    public function setDelay($delay)
+    {
+        $this->delay = $delay;
     }
 
     /**
