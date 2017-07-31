@@ -16,6 +16,11 @@ functions.
 composer install gousto/replay
 ```
 
+## Features
+
+- Re-try functions within exception scope
+- Increase delay for every attempt
+- Create advanced re-try fallback strategies
 
 ## Usage
 
@@ -41,6 +46,28 @@ This code will return you right away the result of `Http::get()`, if no **Except
 
 In case of **Exception** it will retry again up to **3** times with a `50ms` interval.
 
+### Increase delay at every attempt:
+Let's say we want to have a re-try strategy that want to increase the interval at every attempt
+`i.e`: 1st attempt `10ms`, 2nd attempts `20ms` 3rd attempt `40ms`
+
+```php
+<?php
+
+use Gousto\Replay\Replay;
+
+$replay = Replay::times(3, function() {
+
+    throw new LogicException();
+  
+}, 10);
+
+$replay->onRetry(function(Exception $e, Replay $replay) {
+   $replay->setDelay($replay->getDelay() * 2); 
+});
+
+// play the strategy!
+$replay->play();
+```
 
 ### Custom Exceptions
 Replay allow you to trigger the retry logic only for particular **Exceptions**,

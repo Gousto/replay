@@ -194,6 +194,25 @@ class ReplayCest
         }
     }
 
+    public function willIncreaseDelayForEveryRetry(UnitTester $I)
+    {
+        $replay = Replay::times(3, function() {
+            throw new RuntimeException("Error");
+        }, 10); // start with 10ms
+
+        // Every retry increase the delay of 2 times
+        $replay->onRetry(function(Exception $e, Replay $replay) {
+            $replay->setDelay($replay->getDelay() * 2);
+        });
+
+        $start_time = $this->microtime_float();
+        $replay->play(true);
+        $end_time = $this->microtime_float();
+        $end = $end_time - $start_time;
+
+        $I->assertTrue($end > 0.070);
+    }
+
     /**
      * @return float
      */
