@@ -10,9 +10,21 @@ jobs:
     docker: *gousto_build_image
     steps:
     - checkout
+    - restore_cache:
+        name: Restore composer Package Cache
+        keys:
+          - composer-packages-v1-{{ .Branch }}-{{ checksum "composer.lock" }}
+          - composer-packages-v1-{{ .Branch }}
+          - composer-packages-v1-master
+          - composer-packages-v1-
     - run:
         name: Install Dependencies
         command: composer install --prefer-dist --no-interaction -o
+    - save_cache:
+        name: Save composer Package Cache
+        key: composer-packages-v1-{{ .Branch }}-{{ checksum "composer.lock" }}
+        paths:
+          - vendor/
     - run:
         name: Run tests
         command: ./vendor/bin/codecept run --coverage --coverage-xml --coverage-html
