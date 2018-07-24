@@ -1,0 +1,36 @@
+---
+version: 2
+gousto_build_image: &gousto_build_image
+- image: ${AWS_ACCOUNT_NUMBER}.dkr.ecr.eu-west-1.amazonaws.com/${GOUSTO_ENVIRONMENT}/circleci-image/php56:latest
+  aws_auth:
+    aws_access_key_id: $AWS_ERC_ACCESS_KEY
+    aws_secret_access_key: $AWS_ERC_SECRET_KEY
+jobs:
+  test:
+    docker: *gousto_build_image
+    steps:
+    - checkout
+    - restore_cache:
+        name: Restore composer Package Cache
+        keys:
+          - composer-packages-v1-{{ .Branch }}
+          - composer-packages-v1-master
+          - composer-packages-v1-
+    - run:
+        name: Install Dependencies
+        command: composer install --prefer-dist --no-interaction -o
+    - save_cache:
+        name: Save composer Package Cache
+        key: composer-packages-v1-{{ .Branch }}
+        paths:
+          - vendor/
+    - run:
+        name: Run tests
+        command: ./vendor/bin/codecept run --coverage --coverage-xml --coverage-html
+
+workflows:
+  version: 2
+  pull-request-branch:
+    jobs:
+    - test:
+        context: gousto-beta-aws-app-circleci
