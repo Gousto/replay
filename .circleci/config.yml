@@ -13,7 +13,6 @@ jobs:
     - restore_cache:
         name: Restore composer Package Cache
         keys:
-          - composer-packages-v1-{{ .Branch }}-{{ checksum "composer.lock" }}
           - composer-packages-v1-{{ .Branch }}
           - composer-packages-v1-master
           - composer-packages-v1-
@@ -22,7 +21,7 @@ jobs:
         command: composer install --prefer-dist --no-interaction -o
     - save_cache:
         name: Save composer Package Cache
-        key: composer-packages-v1-{{ .Branch }}-{{ checksum "composer.lock" }}
+        key: composer-packages-v1-{{ .Branch }}
         paths:
           - vendor/
     - run:
