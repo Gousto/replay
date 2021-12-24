@@ -1,6 +1,6 @@
 {
     "name": "gousto/replay",
-    "description": "Replay comes in allowing you to plan re-tries and fallbacks strategies for your functions.",
+    "description": "Replay TEST comes in allowing you to plan re-tries and fallbacks strategies for your functions.",
     "type": "library",
     "license": "MIT",
     "authors": [
